@@ -37,7 +37,7 @@
 
           <van-count-down v-if="isCountDownShow"
                           slot="button"
-                          :time="1000 * 5"
+                          :time="1000 * 60"
                           format="ss s"
                           @finish="isCountDownShow = false" />
 
@@ -64,7 +64,10 @@
   </div>
 </template>
 <script>
-import { login } from '@/api/user'
+import { login, getSmsCode } from '@/api/user'
+
+// import { user } from 'vuex'
+
 export default {
   name: 'LoginIndex',
   components: {},
@@ -107,7 +110,6 @@ export default {
   methods: {
     async onSubmit() {
       // 1. 获取表单数据
-      const user = this.user
 
       // TODO: 2. 表单验证
 
@@ -118,8 +120,8 @@ export default {
         duration: 0, // 持续时间，默认 2000，0 表示持续展示不关闭
       })
       try {
-        const res = await login(user)
-        console.log('登录成功', res)
+        const { data } = await login(this.user)
+        this.$store.commit('setUser', data.data)
         this.$toast.success('登录成功')
       } catch (err) {
         if (err.response.status === 400) {
@@ -141,6 +143,18 @@ export default {
       // 2. 验证通过，显示倒计时
       this.isCountDownShow = true
       // 3. 请求发送验证码
+      try {
+        await getSmsCode(this.user.mobile)
+        this.$toast('发送成功')
+      } catch (err) {
+        // 发送失败，关闭倒计时
+        this.isCountDownShow = false
+        if (err.response.status === 429) {
+          this.$toast('发送太频繁了，请稍后重试')
+        } else {
+          this.$toast('发送失败，请稍后重试')
+        }
+      }
     },
   },
 }

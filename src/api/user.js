@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 19:50:26
- * @LastEditTime: 2020-12-10 22:17:40
+ * @LastEditTime: 2020-12-12 10:11:58
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \toutiao-m\src\api\user.js
@@ -18,5 +18,13 @@ export const login = (data) => {
 		method: 'POST',
 		url: '/app/v1_0/authorizations',
 		data,
+	})
+}
+
+// 发送验证码的请求
+export const getSmsCode = (mobile) => {
+	return request({
+		method: 'GET',
+		url: `/app/v1_0/sms/codes/${mobile}`,
 	})
 }
