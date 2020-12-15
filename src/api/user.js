@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 19:50:26
- * @LastEditTime: 2020-12-12 22:28:08
+ * @LastEditTime: 2020-12-13 11:29:39
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \toutiao-m\src\api\user.js
@@ -44,5 +44,14 @@ export const getUserInfo = () => {
 		// 	//       token的数据格式：Bearer token数据，注意 Bearer 后面有个空格
 		// 	Authorization: `Bearer ${store.state.user.token}`,
 		// },
+	})
+}
+/**
+ * 获取用户自己的信息
+ */
+export const getUserChannels = () => {
+	return request({
+		method: 'GET',
+		url: '/app/v1_0/user/channels',
 	})
 }

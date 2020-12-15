@@ -1,7 +1,8 @@
 <template>
   <div class="home-container">
     <!-- 导航栏 -->
-    <van-nav-bar class="page-nav-bar">
+    <van-nav-bar class="page-nav-bar"
+                 fixed>
       <van-button class="search-btn"
                   slot="title"
                   type="info"
@@ -14,15 +15,16 @@
               v-model="active"
               animated
               swipeable>
-      <van-tab title="标签 1">内容 1</van-tab>
-      <van-tab title="标签 2">内容 2</van-tab>
-      <van-tab title="标签 3">内容 3</van-tab>
-      <van-tab title="标签 4">内容 4</van-tab>
-      <van-tab title="标签 4">内容 4</van-tab>
-      <van-tab title="标签 4">内容 4</van-tab>
-
+      <van-tab v-for="channel in channels"
+               :key="channel.id"
+               :title="channel.name">
+        <!-- 文章列表 -->
+        <article-list :channel="channel" />
+        <!-- 文章列表 -->
+      </van-tab>
       <div slot="nav-right"
-           class="placeholder"></div>
+           class="placeholder">
+      </div>
       <div slot="nav-right"
            class="hamburger-btn">
         <i class="toutiao toutiao-gengduo"></i>
@@ -33,26 +35,50 @@
 
 
 <script>
+// 1. 导入 获取频道列表的方法
+import { getUserChannels } from '@/api/user'
+
+import ArticleList from './components/article-list'
+
 export default {
   name: 'HomeIndex',
-  components: {},
+  components: {
+    ArticleList,
+  },
   props: {},
   data() {
     return {
       active: 0,
+      // 4. 定义数据接收频道列表
+      channels: [],
     }
   },
   computed: {},
   watch: {},
-  created() {},
+  created() {
+    // 3. 调用获取频道列表
+    this.loadChannels()
+  },
   mounted() {},
-  methods: {},
+  methods: {
+    // 2. 定义加载频道列表数据的方法
+    async loadChannels() {
+      try {
+        const { data } = await getUserChannels()
+        this.channels = data.data.channels
+      } catch (err) {
+        this.$toast('获取频道列表数据失败')
+      }
+    },
+  },
 }
 </script>
 
 <style lang="less" scoped>
 // 当前组件中加了 scoped 对内部样式的修改需要加 /deep/，或者去掉 scoped
 .home-container {
+  padding-top: 174px;
+  padding-bottom: 100px;
   /deep/ .van-nav-bar__title {
     max-width: unset;
   }
@@ -69,6 +95,10 @@ export default {
   /deep/ .channel-tabs {
     .van-tabs__wrap {
       height: 82px;
+      position: fixed;
+      top: 92px;
+      z-index: 2;
+      width: 100%;
     }
     // Tab 标签页
     .van-tab {
