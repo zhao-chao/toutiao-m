@@ -26,11 +26,22 @@
            class="placeholder">
       </div>
       <div slot="nav-right"
-           class="hamburger-btn">
+           class="hamburger-btn"
+           @click="show = true">
         <i class="toutiao toutiao-gengduo"></i>
       </div>
     </van-tabs>
+
+    <!-- 文章编辑弹出层 -->
+    <van-popup v-model="show"
+               closeable
+               position="bottom"
+               close-icon-position="top-left"
+               :style="{ height: '100%' }">
+      <channel-edit :my-channels="channels" />
+    </van-popup>
   </div>
+
 </template>
 
 
@@ -39,11 +50,13 @@
 import { getUserChannels } from '@/api/user'
 
 import ArticleList from './components/article-list'
+import ChannelEdit from './components/channel-edit'
 
 export default {
   name: 'HomeIndex',
   components: {
     ArticleList,
+    ChannelEdit,
   },
   props: {},
   data() {
@@ -51,6 +64,7 @@ export default {
       active: 0,
       // 4. 定义数据接收频道列表
       channels: [],
+      show: false,
     }
   },
   computed: {},
