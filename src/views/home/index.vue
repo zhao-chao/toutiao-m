@@ -8,14 +8,18 @@
                   type="info"
                   size="small"
                   round
+                  to="/search"
                   icon="search">搜索</van-button>
     </van-nav-bar>
     <!-- 频道列表 -->
     <van-tabs class="channel-tabs"
               v-model="active"
               animated
+              @click="add"
+              @rendered="add2"
               swipeable>
       <van-tab v-for="channel in channels"
+               :name='channel.id'
                :key="channel.id"
                :title="channel.name">
         <!-- 文章列表 -->
@@ -38,7 +42,9 @@
                position="bottom"
                close-icon-position="top-left"
                :style="{ height: '100%' }">
-      <channel-edit :my-channels="channels" />
+      <channel-edit :my-channels="channels"
+                    :ido="ido"
+                    @update-active="onUpdateActive" />
     </van-popup>
   </div>
 
@@ -51,6 +57,10 @@ import { getUserChannels } from '@/api/user'
 
 import ArticleList from './components/article-list'
 import ChannelEdit from './components/channel-edit'
+
+import { mapState } from 'vuex'
+
+import { getItem } from '@/utils/storage'
 
 export default {
   name: 'HomeIndex',
@@ -65,9 +75,12 @@ export default {
       // 4. 定义数据接收频道列表
       channels: [],
       show: false,
+      ido: '',
     }
   },
-  computed: {},
+  computed: {
+    ...mapState(['user']),
+  },
   watch: {},
   created() {
     // 3. 调用获取频道列表
@@ -77,12 +90,51 @@ export default {
   methods: {
     // 2. 定义加载频道列表数据的方法
     async loadChannels() {
+      //   try {
+      //     const { data } = await getUserChannels()
+      //     this.channels = data.data.channels
+      //   } catch (err) {
+      //     this.$toast('获取频道列表数据失败')
+      //   }
+
       try {
-        const { data } = await getUserChannels()
-        this.channels = data.data.channels
+        let channels = []
+        if (this.user) {
+          // 已登录，请求获取线上的频道数据
+          const { data } = await getUserChannels()
+          channels = data.data.channels
+        } else {
+          // 未登录
+          const localChannels = getItem('TOUTIAO_CHANNELS')
+          if (localChannels) {
+            // 有本地频道数据，则使用
+            channels = localChannels
+          } else {
+            // 没有本地频道数据，则请求获取默认推荐的频道列表
+            const { data } = await getUserChannels()
+            channels = data.data.channels
+          }
+        }
+
+        // 将数据更新到组件中
+        this.channels = channels
       } catch (err) {
-        this.$toast('获取频道列表数据失败')
+        console.log(err)
+        this.$toast('数据获取失败')
       }
+    },
+    // 页面·初始化
+    add2(t, n) {
+      this.ido = t
+    },
+    // 点击事件
+    add(t, n) {
+      this.ido = t
+    },
+
+    onUpdateActive(index) {
+      this.active = index
+      this.show = false
     },
   },
 }

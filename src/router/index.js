@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 16:10:29
- * @LastEditTime: 2020-12-12 15:40:22
+ * @LastEditTime: 2020-12-16 16:13:48
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \toutiao-m\src\router\index.js
@@ -43,6 +43,11 @@ const routes = [
 				component: () => import('@/views/my'),
 			},
 		],
+	},
+	{
+		path: '/search',
+		nameL: 'search',
+		component: () => import('@/views/search'),
 	},
 ]
 
