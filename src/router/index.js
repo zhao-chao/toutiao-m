@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 16:10:29
- * @LastEditTime: 2020-12-16 16:13:48
+ * @LastEditTime: 2020-12-18 14:37:26
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \toutiao-m\src\router\index.js
@@ -48,6 +48,13 @@ const routes = [
 		path: '/search',
 		nameL: 'search',
 		component: () => import('@/views/search'),
+	},
+	{
+		path: '/article/:articleId',
+		name: 'article',
+		component: () => import('@/views/article'),
+		// 将路由动态参数映射到组件的 props 中，更推荐这种做法
+		props: true,
 	},
 ]
 

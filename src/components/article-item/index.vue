@@ -1,5 +1,25 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-12-14 16:07:48
+ * @LastEditTime: 2020-12-18 14:52:04
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \toutiao-m\src\components\article-item\index.vue
+-->
 <template>
-  <van-cell class="article-item">
+  <!-- :to=" '/article/' + article.art_id " -->
+
+  <!--
+            component:
+            ()=> import('@/views/article'),
+    // 将路由动态参数映射到组件的 props 中，更推荐这种做法
+    props: true -->
+
+  <van-cell class="article-item"
+            :to=" { 
+                name: 'article',
+                params:{articleId:article.art_id}}">
+
     <div slot="title"
          class="title van-multi-ellipsis--l2">{{ article.title }}</div>
     <div slot="label">
