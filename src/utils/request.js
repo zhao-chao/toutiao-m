@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 14:47:27
- * @LastEditTime: 2020-12-12 22:27:25
- * @LastEditors: your name
+ * @LastEditTime: 2020-12-18 10:50:53
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \toutiao-m\src\utils\request.js
  */
@@ -13,7 +13,7 @@ import axios from 'axios'
 import store from '@/store'
 
 const request = axios.create({
-	baseURL: 'http://ttapi.research.itcast.cn/', // 接口的基准路径
+	// baseURL: 'http://ttapi.research.itcast.cn/', // 接口的基准路径
 })
 
 // 请求拦截器
