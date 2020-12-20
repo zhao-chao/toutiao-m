@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 19:50:26
- * @LastEditTime: 2020-12-13 11:29:39
+ * @LastEditTime: 2020-12-19 10:22:35
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \toutiao-m\src\api\user.js
@@ -53,5 +53,28 @@ export const getUserChannels = () => {
 	return request({
 		method: 'GET',
 		url: '/app/v1_0/user/channels',
+	})
+}
+
+/**
+ * 添加关注
+ */
+export const addFollow = (userId) => {
+	return request({
+		method: 'POST',
+		url: '/app/v1_0/user/followings',
+		data: {
+			target: userId,
+		},
+	})
+}
+
+/**
+ * 取消关注
+ */
+export const deleteFollow = (userId) => {
+	return request({
+		method: 'DELETE',
+		url: `/app/v1_0/user/followings/${userId}`,
 	})
 }

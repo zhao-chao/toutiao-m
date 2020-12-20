@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 10:44:25
- * @LastEditTime: 2020-12-10 11:45:14
- * @LastEditors: your name
+ * @LastEditTime: 2020-12-18 21:36:57
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \toutiao-m\.postcssrc.js
  */
@@ -29,6 +29,7 @@ module.exports = {
 				return file.indexOf('vant') !== -1 ? 37.5 : 75
 			},
 			propList: ['*'],
+			exclude: 'github-markdown',
 		},
 	},
 }
