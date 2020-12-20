@@ -64,7 +64,7 @@
                         round
                         size="small">写评论</van-button>
             <van-icon name="comment-o"
-                      info="123"
+                      :badge=" totalCommentCount"
                       color="#777" />
             <!-- <van-icon color="#777"
                 name="star-o" /> -->
@@ -90,6 +90,9 @@
              v-html="article.content"
              ref="article-content"></div>
         <van-divider>正文结束</van-divider>
+        <!-- 文章评论 -->
+        <comment-list :source="article.art_id"
+                      @onload-success="totalCommentCount=$event.total_count" />
       </div>
       <!-- /加载完成-文章详情 -->
 
@@ -128,12 +131,16 @@ import CollectArticle from '@/components/collect-article'
 // 点赞
 import likeArticle from '@/components/like-article'
 
+// 评论
+import CommentList from './components/comment-list'
+
 export default {
   name: 'ArticleIndex',
   components: {
     FollowUser,
     CollectArticle,
     likeArticle,
+    CommentList,
   },
   props: {
     articleId: {
@@ -147,6 +154,7 @@ export default {
       isLoading: true,
       errStatus: 0,
       isFollowLoading: false,
+      totalCommentCount: 0,
     }
   },
   computed: {},
