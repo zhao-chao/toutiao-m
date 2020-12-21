@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-20 15:33:04
- * @LastEditTime: 2020-12-20 17:43:42
+ * @LastEditTime: 2020-12-21 09:36:59
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \toutiao-m\src\api\comment.js
@@ -41,5 +41,15 @@ export function deleteCommentLike(commentId) {
 	return request({
 		method: 'DELETE',
 		url: `/app/v1_0/comment/likings/${commentId}`,
+	})
+}
+/**
+ * 添加评论或评论回复
+ */
+export function addComment(data) {
+	return request({
+		method: 'POST',
+		url: '/app/v1_0/comments',
+		data,
 	})
 }

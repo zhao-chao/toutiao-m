@@ -62,7 +62,8 @@
             <van-button class="comment-btn"
                         type="default"
                         round
-                        size="small">写评论</van-button>
+                        size="small"
+                        @click="isPostShow = true">写评论</van-button>
             <van-icon name="comment-o"
                       :badge=" totalCommentCount"
                       color="#777" />
@@ -92,7 +93,14 @@
         <van-divider>正文结束</van-divider>
         <!-- 文章评论 -->
         <comment-list :source="article.art_id"
+                      :list="commentList"
                       @onload-success="totalCommentCount=$event.total_count" />
+
+        <van-popup v-model="isPostShow"
+                   position="bottom">
+          <comment-post :target="article.art_id"
+                        @post-success="onPpstSuccess" />
+        </van-popup>
       </div>
       <!-- /加载完成-文章详情 -->
 
@@ -133,6 +141,8 @@ import likeArticle from '@/components/like-article'
 
 // 评论
 import CommentList from './components/comment-list'
+// 评论弹出层
+import CommentPost from './components/comment-post'
 
 export default {
   name: 'ArticleIndex',
@@ -141,6 +151,7 @@ export default {
     CollectArticle,
     likeArticle,
     CommentList,
+    CommentPost,
   },
   props: {
     articleId: {
@@ -155,6 +166,10 @@ export default {
       errStatus: 0,
       isFollowLoading: false,
       totalCommentCount: 0,
+      //   弹出层
+      isPostShow: false,
+      //   评论列表
+      commentList: [],
     }
   },
   computed: {},
@@ -226,6 +241,11 @@ export default {
     //   // 关闭按钮的 loading 状态
     //   this.article.aut_id = false
     // },
+
+    onPpstSuccess(data) {
+      this.isPostShow = false
+      this.commentList.unshift(data.new_obj)
+    },
   },
 }
 </script>

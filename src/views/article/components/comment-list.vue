@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-20 11:39:57
- * @LastEditTime: 2020-12-20 17:31:57
+ * @LastEditTime: 2020-12-21 11:28:12
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \toutiao-m\src\views\article\components\comment-list.vue
@@ -34,10 +34,14 @@ export default {
       type: [Number, String, Object],
       required: true,
     },
+    list: {
+      type: Array,
+      required: true,
+    },
   },
   data() {
     return {
-      list: [], // 评论列表
+      //   list: [], // 评论列表
       loading: false, // 上拉加载更多的 loading
       finished: false, // 是否加载结束
       offset: null, // 请求下一页数据的页码
