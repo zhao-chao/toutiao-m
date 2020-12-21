@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-20 11:39:57
- * @LastEditTime: 2020-12-21 11:28:12
+ * @LastEditTime: 2020-12-21 19:23:29
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \toutiao-m\src\views\article\components\comment-list.vue
@@ -13,10 +13,12 @@
             finished-text="没有更多了"
             :error="error"
             error-text="加载失败"
+            :immediate-check="false"
             @load="onLoad">
     <comment-item v-for="(item ,index) in list"
                   :key="index"
-                  :comment='item' />
+                  :comment='item'
+                  @reply-click="$emit('reply-click',$event)" />
   </van-list>
 </template>
 
@@ -24,11 +26,13 @@
 import { getComments } from '@/api/comment'
 
 import CommentItem from './comment-item'
-import commentItem from './comment-item.vue'
 
 export default {
-  components: { commentItem },
   name: 'CommentList',
+
+  components: {
+    CommentItem,
+  },
   props: {
     source: {
       type: [Number, String, Object],
@@ -36,7 +40,15 @@ export default {
     },
     list: {
       type: Array,
-      required: true,
+      default: () => [],
+    },
+    type: {
+      type: String,
+
+      validator(value) {
+        return ['a', 'c'].includes(value)
+      },
+      default: 'a',
     },
   },
   data() {
@@ -50,6 +62,7 @@ export default {
     }
   },
   created() {
+    this.loading = true
     this.onLoad()
   },
   methods: {
@@ -57,7 +70,7 @@ export default {
       try {
         // 1. 请求获取数据
         const { data } = await getComments({
-          type: 'a', // 评论类型，a-对文章(article)的评论，c-对评论(comment)的回复
+          type: this.type, // 评论类型，a-对文章(article)的评论，c-对评论(comment)的回复
           source: this.source.toString(), // 源id，文章id或评论id
           offset: this.offset, // 获取评论数据的偏移量，值为评论id，表示从此id的数据向后取，不传表示从第一页开始读取数据
           limit: this.limit, // 每页大小

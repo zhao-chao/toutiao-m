@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-20 17:27:59
- * @LastEditTime: 2020-12-20 18:02:54
+ * @LastEditTime: 2020-12-21 14:32:48
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \toutiao-m\src\views\article\components\comment-item.vue
@@ -28,7 +28,8 @@
       <div class="bottom-info">
         <span class="comment-pubdate">{{ comment.pubdate | relativeTime }}</span>
         <van-button class="reply-btn"
-                    round>回复 {{ comment.reply_count }}</van-button>
+                    round
+                    @click="$emit('reply-click',comment)">回复 {{ comment.reply_count }}</van-button>
       </div>
     </div>
   </van-cell>

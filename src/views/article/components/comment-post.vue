@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-21 09:28:44
- * @LastEditTime: 2020-12-21 11:45:21
+ * @LastEditTime: 2020-12-21 22:04:27
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \toutiao-m\src\views\article\components\comment-post.vue
@@ -27,6 +27,12 @@ import { addComment } from '@/api/comment'
 export default {
   name: 'CommentPost',
   components: {},
+  inject: {
+    articleId: {
+      type: [Number, String, Object],
+      required: true,
+    },
+  },
   props: {
     target: {
       type: [Number, String, Object],
@@ -51,9 +57,9 @@ export default {
       })
       try {
         const { data } = await addComment({
-          target: this.target, //评论的目标id（评论文章即为文章id，对评论进行回复则为评论id）
+          target: this.target.toString(), //评论的目标id（评论文章即为文章id，对评论进行回复则为评论id）
           content: this.message, //评论内容
-          art_id: null,
+          art_id: this.articleId ? this.articleId.toString() : this.articleId,
         })
 
         // 清空文本框

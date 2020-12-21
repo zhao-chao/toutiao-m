@@ -94,7 +94,8 @@
         <!-- 文章评论 -->
         <comment-list :source="article.art_id"
                       :list="commentList"
-                      @onload-success="totalCommentCount=$event.total_count" />
+                      @onload-success="totalCommentCount=$event.total_count"
+                      @reply-click="onReplyClick" />
 
         <van-popup v-model="isPostShow"
                    position="bottom">
@@ -122,7 +123,22 @@
       </div>
       <!-- /加载失败：其它未知错误（例如网络原因或服务端异常） -->
     </div>
+    <!-- 评论回复 -->
+    <van-popup v-model="isReplyShow"
+               position="bottom"
+               style="height: 100%">
 
+      <!-- v-if 条件渲染 
+               true:渲染元素节点
+               false：不渲染
+
+               有销毁组件的作用
+                -->
+      <comment-reply :comment="currentComment"
+                     v-if=" isReplyShow"
+                     @close="isReplyShow = false" />
+    </van-popup>
+    <!-- /评论回复 -->
   </div>
 </template>
 
@@ -141,8 +157,12 @@ import likeArticle from '@/components/like-article'
 
 // 评论
 import CommentList from './components/comment-list'
+
 // 评论弹出层
 import CommentPost from './components/comment-post'
+
+// 评论回复弹出层
+import CommentReply from './components/comment-reply'
 
 export default {
   name: 'ArticleIndex',
@@ -152,6 +172,13 @@ export default {
     likeArticle,
     CommentList,
     CommentPost,
+    CommentReply,
+  },
+
+  provide: function () {
+    return {
+      articleId: this.articleId,
+    }
   },
   props: {
     articleId: {
@@ -166,10 +193,13 @@ export default {
       errStatus: 0,
       isFollowLoading: false,
       totalCommentCount: 0,
-      //   弹出层
+      //  发表弹出层
       isPostShow: false,
       //   评论列表
       commentList: [],
+      //   评论回复弹出层
+      isReplyShow: false,
+      currentComment: {}, // 点击回复的那个评论对象
     }
   },
   computed: {},
@@ -245,6 +275,12 @@ export default {
     onPpstSuccess(data) {
       this.isPostShow = false
       this.commentList.unshift(data.new_obj)
+    },
+
+    onReplyClick(c) {
+      this.isReplyShow = true
+      this.currentComment = c
+      console.log(this.currentComment)
     },
   },
 }
