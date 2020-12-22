@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 19:50:26
- * @LastEditTime: 2020-12-19 10:22:35
+ * @LastEditTime: 2020-12-22 10:03:29
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \toutiao-m\src\api\user.js
@@ -76,5 +76,25 @@ export const deleteFollow = (userId) => {
 	return request({
 		method: 'DELETE',
 		url: `/app/v1_0/user/followings/${userId}`,
+	})
+}
+/**
+ * 获取用户个人资料
+ */
+// 获取指定用户信息
+export const getUserProfile = () => {
+	return request({
+		method: 'GET',
+		url: '/app/v1_0/user/profile',
+	})
+}
+/**
+ * 更新昵称
+ */
+export const updateUserName = (data) => {
+	return request({
+		method: 'PATCH',
+		url: '/app/v1_0/user/profile',
+		data,
 	})
 }

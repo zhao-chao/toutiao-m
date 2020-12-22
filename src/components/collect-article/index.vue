@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-19 14:37:20
- * @LastEditTime: 2020-12-19 16:52:20
+ * @LastEditTime: 2020-12-22 14:40:09
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \toutiao-m\src\components\collect-article\index.vue
@@ -44,13 +44,17 @@ export default {
     async onCollect() {
       // 开始请求
       this.loading = true
+      let r
       try {
         // 是否收藏
         if (this.value) {
           // 父组件 传递articleId
-          deleteCollect(this.articleId)
+          r = deleteCollect(this.articleId)
         } else {
-          await addCollect(this.articleId)
+          r = await addCollect(this.articleId)
+        }
+        if (!r) {
+          return this.$toast.fail('操作失败，请重试')
         }
         // 更新视图
         this.$emit('input', !this.value)

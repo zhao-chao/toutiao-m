@@ -16,7 +16,8 @@
         </div>
         <div class="right">
           <van-button size="mini"
-                      round>编辑资料</van-button>
+                      round
+                      to="/user/profile">编辑资料</van-button>
         </div>
       </div>
 

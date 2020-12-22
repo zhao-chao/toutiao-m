@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-20 17:27:59
- * @LastEditTime: 2020-12-21 14:32:48
+ * @LastEditTime: 2020-12-21 22:28:46
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \toutiao-m\src\views\article\components\comment-item.vue
@@ -114,7 +114,7 @@ export default {
     align-items: center;
   }
   .reply-btn {
-    width: 135px;
+    // width: 135px;
     height: 48px;
     line-height: 48px;
     font-size: 21px;
