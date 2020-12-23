@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 19:50:26
- * @LastEditTime: 2020-12-22 10:03:29
+ * @LastEditTime: 2020-12-23 20:23:06
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \toutiao-m\src\api\user.js
@@ -95,6 +95,16 @@ export const updateUserName = (data) => {
 	return request({
 		method: 'PATCH',
 		url: '/app/v1_0/user/profile',
+		data,
+	})
+}
+/**
+ * 更新头像
+ */
+export const updateUserAvatar = (data) => {
+	return request({
+		method: 'PATCH',
+		url: '/app/v1_0/user/photo',
 		data,
 	})
 }

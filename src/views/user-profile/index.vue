@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-21 22:32:28
- * @LastEditTime: 2020-12-22 16:31:26
+ * @LastEditTime: 2020-12-23 20:35:46
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \toutiao-m\src\views\user-profile\index.vue
@@ -70,6 +70,17 @@
                       @close="isShowUpdateBirthdy = false" />
     </van-popup>
     <!-- 编辑生日弹层 -->
+
+    <!-- 编辑头像弹层 -->
+    <van-popup v-model="isShowUpdateAvatar"
+               style="height: 100%"
+               position="bottom">
+      <update-avatar v-if="isShowUpdateAvatar"
+                     @update-avatar="user.photo = $event"
+                     :img="img"
+                     @close='isShowUpdateAvatar=false' />
+    </van-popup>
+    <!-- 编辑头像弹层 -->
   </div>
 </template>
 
@@ -84,6 +95,7 @@ import updateGender from './components/update-gender'
 
 import UpdateBirthdy from './components/update-birthdy'
 
+import UpdateAvatar from './components/update-avatar'
 export default {
   name: 'userProfile',
   data() {
@@ -92,12 +104,15 @@ export default {
       isShowUpdateName: false,
       isShowUpdateGender: false,
       isShowUpdateBirthdy: false,
+      isShowUpdateAvatar: false,
+      img: null,
     }
   },
   components: {
     UpdateName,
     updateGender,
     UpdateBirthdy,
+    UpdateAvatar,
   },
   created() {
     this.loadProfile()
@@ -117,8 +132,11 @@ export default {
       // 获取文件对象
       const file = this.$refs.file.files[0]
       // 获取blob数据
-      const data = window.URL.createObjectURL(file)
-      console.log(data)
+      this.img = window.URL.createObjectURL(file)
+
+      this.isShowUpdateAvatar = true
+
+      this.$refs.file.value = ''
     },
   },
 }
